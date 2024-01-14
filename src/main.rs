@@ -1,15 +1,40 @@
 mod sat_algorithms;
 mod utils;
-use sat_algorithms::dpll::{dpll_solve, Assignment};
-
-fn parse_cnf(expression: &str) -> Vec<Vec<i32>> {
-    todo!("Parse the input string into a CNF formula {}", expression);
-}
+use sat_algorithms::dpll::{Assignment, dpll_solve};
+use utils::cnfconverter::{BoolExpr, to_cnf};
 
 fn main() {
     // Example formula: (A || B) && (!A || C)
-    println!("Solving (A || B) && (!A || C):");
-    let cnf = vec![vec![1, 2], vec![-1, 3]];
+    let bool_expr = BoolExpr::Or(
+        Box::new(BoolExpr::And(
+            Box::new(BoolExpr::Variable('A')),
+            Box::new(BoolExpr::Variable('B')),
+        )),
+        Box::new(BoolExpr::And(
+            Box::new(BoolExpr::Not(Box::new(BoolExpr::Variable('A')))),
+            Box::new(BoolExpr::Variable('C')),
+        )),
+    );
+
+    // let bool_expr = BoolExpr::And(
+    //     Box::new(BoolExpr::Or(
+    //         Box::new(BoolExpr::Variable('A')),
+    //         Box::new(BoolExpr::Variable('B')),
+    //     )),
+    //     Box::new(BoolExpr::Or(
+    //         Box::new(BoolExpr::Variable('C')),
+    //         Box::new(BoolExpr::Variable('D')),
+    //     )),
+    // );
+
+    println!("solving for Boolean expression: {:?}", bool_expr);
+
+    // Convert the boolean expression to CNF
+    let cnf = to_cnf(&bool_expr);
+
+    // Print the CNF representation
+    println!("CNF representation: {:?}", cnf);
+        
     let mut assignment = Assignment::new();
 
     if dpll_solve(&cnf, &mut assignment) {

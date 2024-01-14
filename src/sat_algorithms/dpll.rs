@@ -1,5 +1,5 @@
-use std::collections::HashMap;
-// Define a type alias 'Assignment' to represent variable assignments (char -> bool).
+use crate::utils::cnfconverter::char_to_i32;
+use std::collections::HashMap;// Define a type alias 'Assignment' to represent variable assignments (char -> bool).
 pub type Assignment = HashMap<char, bool>;
 
 // Implementing DPLL algorithm for SAT solvability
@@ -24,12 +24,12 @@ pub fn dpll_solve(cnf: &Vec<Vec<i32>>, assignment: &mut Assignment) -> bool {
 
     // Choose a variable from the first clause in the CNF.
     println!("Current CNF: {:?}", cnf);
-    let variable = cnf[0][0].abs() as usize;
-    println!("Choosing variable {}", (variable as u8 + b'A' - 1) as char);
+    let variable = (cnf[0][0].abs() as u8) as char;
+    println!("Choosing variable {}", variable);
 
     // Try assigning true
-    assignment.insert((variable as u8 + b'A' - 1) as char, true);
-    let reduced_cnf = reduce(cnf, variable, true);
+    assignment.insert(variable, true);
+    let reduced_cnf = reduce(cnf, char_to_i32(variable) as usize, true);
     println!("Reduced CNF: {:?}", reduced_cnf);
 
     if dpll_solve(&reduced_cnf, assignment) {
@@ -37,18 +37,18 @@ pub fn dpll_solve(cnf: &Vec<Vec<i32>>, assignment: &mut Assignment) -> bool {
     }
 
     // If not successful, backtrack
-    assignment.remove(&((variable as u8 + b'A' - 1) as char));
+    assignment.remove(&variable);
 
     // Try assigning false
     assignment.insert((variable as u8 + b'A' - 1) as char, false);
-    let reduced_cnf = reduce(cnf, variable, false);
+    let reduced_cnf = reduce(cnf, char_to_i32(variable) as usize, false);
 
     if dpll_solve(&reduced_cnf, assignment) {
         return true;
     }
 
     // If not successful, undo assignment and backtrack
-    assignment.remove(&((variable as u8 + b'A' - 1) as char));
+    assignment.remove(&variable);
 
     false
 }
