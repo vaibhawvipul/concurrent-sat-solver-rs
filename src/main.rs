@@ -1,4 +1,5 @@
 mod sat_algorithms;
+mod utils;
 use sat_algorithms::dpll::{dpll_solve, Assignment};
 
 fn parse_cnf(expression: &str) -> Vec<Vec<i32>> {
