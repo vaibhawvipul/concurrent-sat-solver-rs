@@ -1,1 +1,1 @@
-pub(crate) mod cnfconverter;
+pub(crate) mod naiveconverter;

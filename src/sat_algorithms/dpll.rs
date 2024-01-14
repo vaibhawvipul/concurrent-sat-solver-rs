@@ -1,4 +1,4 @@
-use crate::translators::cnfconverter::char_to_i32;
+use crate::translators::naiveconverter::char_to_i32;
 use std::collections::HashMap;// Define a type alias 'Assignment' to represent variable assignments (char -> bool).
 pub type Assignment = HashMap<char, bool>;
 
