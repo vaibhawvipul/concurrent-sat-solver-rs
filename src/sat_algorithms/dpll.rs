@@ -14,6 +14,7 @@ pub type Assignment = HashMap<char, bool>;
 pub fn dpll_solve(cnf: &Vec<Vec<i32>>, assignment: &mut Assignment) -> bool {
     if cnf.is_empty() {
         // All clauses satisfied, solution found
+        println!("Satisfying assignment: {:?}", assignment);
         return true;
     }
 
@@ -40,8 +41,9 @@ pub fn dpll_solve(cnf: &Vec<Vec<i32>>, assignment: &mut Assignment) -> bool {
     assignment.remove(&variable);
 
     // Try assigning false
-    assignment.insert((variable as u8 + b'A' - 1) as char, false);
+    assignment.insert(variable, false);
     let reduced_cnf = reduce(cnf, char_to_i32(variable) as usize, false);
+    println!("Reduced CNF: {:?}", reduced_cnf);
 
     if dpll_solve(&reduced_cnf, assignment) {
         return true;
@@ -60,12 +62,12 @@ pub fn dpll_solve(cnf: &Vec<Vec<i32>>, assignment: &mut Assignment) -> bool {
 //   - value: The truth value assigned to the variable.
 // Returns: A vector of vectors representing the reduced CNF.
 pub fn reduce(cnf: &Vec<Vec<i32>>, variable: usize, value: bool) -> Vec<Vec<i32>> {
-    // Filter out clauses containing the chosen variable with the assigned value.
+    // Calculate the literal for the chosen variable based on the assigned value.
+    let literal = variable as i32 * if value { 1 } else { -1 };
+
+    // Filter out clauses containing the chosen variable with the assigned value or its negation.
     cnf.iter()
-        .filter(|clause| {
-            !clause.contains(&(variable as i32 * if value { 1 } else { -1 })) &&
-            !clause.contains(&(variable as i32 * if !value { 1 } else { -1 }))
-        })
+        .filter(|clause| !clause.contains(&literal) && !clause.contains(&-literal))
         .cloned()
         .collect()
 }

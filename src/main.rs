@@ -5,12 +5,12 @@ use translators::naiveconverter::{BoolExpr, to_cnf};
 
 fn main() {
     // Example formula: (A || B) && (!A || C)
-    let bool_expr = BoolExpr::Or(
-        Box::new(BoolExpr::And(
+    let bool_expr = BoolExpr::And(
+        Box::new(BoolExpr::Or(
             Box::new(BoolExpr::Variable('A')),
             Box::new(BoolExpr::Variable('B')),
         )),
-        Box::new(BoolExpr::And(
+        Box::new(BoolExpr::Or(
             Box::new(BoolExpr::Not(Box::new(BoolExpr::Variable('A')))),
             Box::new(BoolExpr::Variable('C')),
         )),
@@ -29,10 +29,7 @@ fn main() {
 
     println!("solving for Boolean expression: {:?}", bool_expr);
 
-    // Convert the boolean expression to CNF
     let cnf = to_cnf(&bool_expr);
-
-    // Print the CNF representation
     println!("CNF representation: {:?}", cnf);
         
     let mut assignment = Assignment::new();

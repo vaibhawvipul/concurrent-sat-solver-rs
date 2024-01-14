@@ -30,15 +30,30 @@ fn negate_cnf(cnf: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
 
 // Helper function to combine CNFs with AND
 fn combine_and_cnf(left: &Vec<Vec<i32>>, right: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
-    left.iter().flat_map(|left_clause| {
-        right.iter().map(move |right_clause| {
-            left_clause.iter().cloned().chain(right_clause.iter().cloned()).collect()
-        })
-    }).collect()
+    let mut result = Vec::new();
+
+    result.extend_from_slice(left);
+    result.extend_from_slice(right);
+
+    println!("and result: {:?}", result);
+    result
 }
 
 // Helper function to combine CNFs with OR
 fn combine_or_cnf(left: &Vec<Vec<i32>>, right: &Vec<Vec<i32>>) -> Vec<Vec<i32>> {
-    left.iter().chain(right.iter()).cloned().collect()
+    let mut result = Vec::new();
+
+    for clause_left in left.iter() {
+        for clause_right in right.iter() {
+            let mut combined_clause = Vec::new();
+            combined_clause.extend_from_slice(clause_left);
+            combined_clause.extend_from_slice(clause_right);
+            result.push(combined_clause);
+        }
+    }
+
+    println!("or result: {:?}", result);
+    result
 }
+
 
