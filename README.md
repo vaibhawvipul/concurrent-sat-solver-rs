@@ -22,3 +22,10 @@ This project is an implementation of a Concurrent DPLL (Davis–Putnam–Logeman
    ```bash
    cargo run
    ```
+
+## References
+- [DPLL Algorithm](https://en.wikipedia.org/wiki/DPLL_algorithm)
+- [Boolean Satisfiability Problem](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem)
+- https://www.cs.princeton.edu/courses/archive/fall21/cos326/lec/23-01-sat.pdf
+- https://www.cs.cmu.edu/~mheule/15816-f21/slides/practice.pdf
+- https://sat.inesc-id.pt/~ines/sac10.pdf
