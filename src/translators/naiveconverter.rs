@@ -35,7 +35,6 @@ fn combine_and_cnf(left: &Vec<Vec<i32>>, right: &Vec<Vec<i32>>) -> Vec<Vec<i32>>
     result.extend_from_slice(left);
     result.extend_from_slice(right);
 
-    println!("and result: {:?}", result);
     result
 }
 
@@ -52,7 +51,6 @@ fn combine_or_cnf(left: &Vec<Vec<i32>>, right: &Vec<Vec<i32>>) -> Vec<Vec<i32>> 
         }
     }
 
-    println!("or result: {:?}", result);
     result
 }
 
