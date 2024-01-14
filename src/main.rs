@@ -1,7 +1,7 @@
 mod sat_algorithms;
-mod utils;
+mod translators;
 use sat_algorithms::dpll::{Assignment, dpll_solve};
-use utils::cnfconverter::{BoolExpr, to_cnf};
+use translators::cnfconverter::{BoolExpr, to_cnf};
 
 fn main() {
     // Example formula: (A || B) && (!A || C)
