@@ -16,25 +16,37 @@ fn main() {
         )),
     );
 
-    // let bool_expr = BoolExpr::And(
-    //     Box::new(BoolExpr::Or(
-    //         Box::new(BoolExpr::Variable('A')),
-    //         Box::new(BoolExpr::Variable('B')),
-    //     )),
-    //     Box::new(BoolExpr::Or(
-    //         Box::new(BoolExpr::Variable('C')),
-    //         Box::new(BoolExpr::Variable('D')),
-    //     )),
-    // );
+    let bool_expr = BoolExpr::And(
+        Box::new(BoolExpr::Or(
+            Box::new(BoolExpr::Variable('A')),
+            Box::new(BoolExpr::Variable('B')),
+        )),
+        Box::new(BoolExpr::Or(
+            Box::new(BoolExpr::Variable('C')),
+            Box::new(BoolExpr::Variable('D')),
+        )),
+    );
+
+    // Unsatisfiable formula: (A || B) && (!A || !B)
+    let bool_expr = BoolExpr::And(
+        Box::new(BoolExpr::Or(
+            Box::new(BoolExpr::Variable('A')),
+            Box::new(BoolExpr::Variable('B')),
+        )),
+        Box::new(BoolExpr::Or(
+            Box::new(BoolExpr::Not(Box::new(BoolExpr::Variable('A')))),
+            Box::new(BoolExpr::Not(Box::new(BoolExpr::Variable('B')))),
+        )),
+    );
 
     println!("solving for Boolean expression: {:?}", bool_expr);
 
-    let cnf = to_cnf(&bool_expr);
+    let mut cnf = to_cnf(&bool_expr);
     println!("CNF representation: {:?}", cnf);
         
     let mut assignment = Assignment::new();
 
-    if dpll_solve(&cnf, &mut assignment) {
+    if dpll_solve(&mut cnf, &mut assignment) {
         println!("SAT Solution found:");
         for (variable, value) in &assignment {
             println!("{}: {}", variable, value);
