@@ -1,5 +1,7 @@
 # concurrent-sat-solver-rs
 
+**This project is under development.**
+
 This project is an implementation of a Concurrent DPLL (Davis–Putnam–Logemann–Loveland) SAT solver in Rust. The DPLL algorithm is used for solving the Boolean Satisfiability Problem (SAT), and the concurrent implementation leverages Rust's parallel programming capabilities to enhance its performance.
 
 ## Features
